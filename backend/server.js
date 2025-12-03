@@ -8,9 +8,9 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 app.use(cors({
-  origin: '*',       
-  credentials: true, 
-}))
+  origin: 'https://wavenet-project-4757.vercel.app',
+  credentials: true,
+}));
 
 app.use(express.json());
 app.use(cookieParser());
