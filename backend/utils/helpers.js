@@ -15,7 +15,7 @@ function getFinancialYear(date) {
   }
 
   const endYear = startYear + 1;
-  return `${startYear}-${endYear}`; // Example: "2024-2025"
+  return `${startYear}-${endYear}`;
 }
 
 function getPrefixForRole(role) {

@@ -5,7 +5,6 @@ const { createInvoice, getInvoices, updateInvoice, deleteInvoices } = require('.
 const { protect } = require('../middleware/auth');
 const { authorizeRoles } = require('../middleware/authorize');
 
-// All invoice routes must be protected
 router.use(protect);
 
 router.post('/', authorizeRoles('ADMIN', 'UNIT_MANAGER', 'USER'), createInvoice);
