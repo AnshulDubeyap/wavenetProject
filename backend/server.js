@@ -10,6 +10,7 @@ const app = express();
 app.use(cors({
     origin: [
         'https://wavenetproject-1.onrender.com',
+        'https://wavenetproject-3.onrender.com',
         'http://localhost:3000'  // For local development
     ],
     credentials: true,
