@@ -8,8 +8,14 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 app.use(cors({
-  origin: 'https://wavenet-project-4757.vercel.app',
-  credentials: true,
+    origin: [
+        'https://wavenetproject-1.onrender.com',
+        'http://localhost:3000'  // For local development
+    ],
+    credentials: true,
+    exposedHeaders: ['set-cookie', 'token'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-csrf-token']
 }));
 
 app.use(express.json());

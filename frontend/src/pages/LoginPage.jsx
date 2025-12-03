@@ -1,37 +1,32 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
-import api from '../api/client'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import api from '../api/client';
 
 function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    setError('')
-    setLoading(true)
+    event.preventDefault();
+    setError('');
+    setLoading(true);
 
     try {
-      const timezoneOffsetMinutes = new Date().getTimezoneOffset()
-
-      const { data } = await api.post('/auth/login', {
-        email,
-        password,
-        timezoneOffsetMinutes,
-      })
-
-      login(data.user, null)
-      navigate('/invoices')
+      // This will now use the login function from AuthContext
+      await login(email, password);
+      // If login is successful, redirect to dashboard
+      navigate('/invoices');
     } catch (err) {
-      const message = err?.response?.data?.message || 'Login failed'
-      setError(message)
+      console.error('Login error:', err);
+      const message = err?.response?.data?.message || 'Login failed. Please check your credentials.';
+      setError(message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
