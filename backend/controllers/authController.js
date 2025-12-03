@@ -16,29 +16,43 @@ function signToken(user) {
 }
 
 function sendTokenResponse(user, res) {
-  const token = signToken(user);
+    const token = signToken(user);
+    const isProduction = process.env.NODE_ENV === 'production';
 
-  const isProduction = process.env.NODE_ENV === 'production';
+    // For production on Render
+    if (isProduction) {
+        res.cookie(TOKEN_COOKIE_NAME, token, {
+            httpOnly: true,
+            secure: true,  // Must be true in production
+            sameSite: 'none',
+            maxAge: 24 * 60 * 60 * 1000,
+            path: '/',
+            // Remove the domain or set it exactly as the domain
+            domain: 'wavenetproject-1.onrender.com' // No leading dot
+        });
+    }
+    // For development
+    else {
+        res.cookie(TOKEN_COOKIE_NAME, token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            maxAge: 24 * 60 * 60 * 1000,
+            path: '/'
+            // No domain for localhost
+        });
+    }
 
-  res.cookie(TOKEN_COOKIE_NAME, token, {
-  httpOnly: true,
-  secure: isProduction,
-  sameSite: isProduction ? 'none' : 'lax',
-  maxAge: 24 * 60 * 60 * 1000,
-  path: '/',
-});
-
- 
-  res.status(200).json({
-    message: 'Login successful',
-    user: {
-      id: user._id,
-      userId: user.userId,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    },
-  });
+    res.status(200).json({
+        message: 'Login successful',
+        user: {
+            id: user._id,
+            userId: user.userId,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+        },
+    });
 }
 
 async function login(req, res) {
