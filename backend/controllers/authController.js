@@ -20,14 +20,15 @@ function sendTokenResponse(user, res) {
 
   const isProduction = process.env.NODE_ENV === 'production';
 
-  res.cookie(TOKEN_COOKIE_NAME, token, {
+  res.cookie('token', token, {
     httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction,                    
+    sameSite: isProduction ? 'none' : 'lax', 
     maxAge: 24 * 60 * 60 * 1000,
+    path: '/',                             
   });
 
-  // We send basic user info back
+ 
   res.status(200).json({
     message: 'Login successful',
     user: {
@@ -56,8 +57,7 @@ async function login(req, res) {
     }
 
     if (timezoneOffsetMinutes !== -330 && timezoneOffsetMinutes !== 330) {
-      // Some browsers send negative offset (UTC - localTime)
-      // IST is typically -330 in that representation.
+    
       return res.status(400).json({
         message:
           'Invalid time zone. Please ensure your system time zone is set to India Standard Time (UTC+5:30).',

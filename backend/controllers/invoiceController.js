@@ -1,9 +1,3 @@
-// ==============================================
-// Invoice Controller (Beginner Friendly)
-// ==============================================
-// Handles CRUD operations for invoices including
-// financial year and date-sequence validation.
-
 const mongoose = require('mongoose');
 const Invoice = require('../models/Invoice');
 const { getFinancialYear, getVisibleUserIds } = require('../utils/helpers');
@@ -112,7 +106,6 @@ async function getInvoices(req, res) {
     }
 
     if (search) {
-      // Search by invoiceNumber loosely
       const num = Number(search);
       if (!Number.isNaN(num)) {
         filter.invoiceNumber = num;

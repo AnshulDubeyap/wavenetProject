@@ -1,9 +1,3 @@
-// ==============================================
-// Group Controller (Beginner Friendly)
-// ==============================================
-// Handles creation of AdminGroup and UnitManagerGroup
-// and adding members to these groups.
-
 const AdminGroup = require('../models/AdminGroup');
 const UnitManagerGroup = require('../models/UnitManagerGroup');
 const User = require('../models/User');
@@ -77,12 +71,12 @@ async function addAdminToGroup(req, res) {
       return res.status(400).json({ message: 'Only ADMIN users can be added to AdminGroup.' });
     }
 
-    // Avoid duplicates
+    
     if (!group.members.find((m) => m.toString() === user._id.toString())) {
       group.members.push(user._id);
     }
 
-    // Update user's adminGroup reference
+    
     user.adminGroup = group._id;
 
     await Promise.all([group.save(), user.save()]);
