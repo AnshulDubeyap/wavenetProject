@@ -20,13 +20,13 @@ function sendTokenResponse(user, res) {
 
   const isProduction = process.env.NODE_ENV === 'production';
 
-  res.cookie('token', token, {
-    httpOnly: true,
-    secure: isProduction,                    
-    sameSite: isProduction ? 'none' : 'lax', 
-    maxAge: 24 * 60 * 60 * 1000,
-    path: '/',                             
-  });
+  res.cookie(TOKEN_COOKIE_NAME, token, {
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
+  maxAge: 24 * 60 * 60 * 1000,
+  path: '/',
+});
 
  
   res.status(200).json({
